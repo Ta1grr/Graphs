@@ -39,7 +39,7 @@ class Graph:
             print('error: no vertext')
         else:
             self.vertices[key].add(value)
-
+    # Part 2
     def bf_traverse(self, start):
         queue = [start]
         visited = set()
@@ -50,6 +50,7 @@ class Graph:
             print(f'VISITED: {queue[0]}')
             visited.add(queue.pop(0))
 
+    # Part 3 // Brady Q & A example
     def df_traverse(self, start):
         stack = [start]
         discovered = set()
@@ -62,9 +63,59 @@ class Graph:
                     stack.append(c)
         return discovered
 
+    # Part 3.5 // Class example
+    def dft_recursive(self, current_vertex, target_vertex, visited = set(), path = []):
+
+        visited.add(current_vertex)
+        path = path + [current_vertex]
+        path += [current_vertex]
+
+        if current_vertex == target_vertex:
+            return path
+        for neighbors in self.vertices[current_vertex]:
+            if neighbor not in visited:
+                new_path = dft_recursive(self, neighbor, target_vertex, visited, path)
+                if new_path:
+                    return new_path
+        return None
+
+    # Part 4
+    def bf_search(self, starting, target):
+        # Initialize Queue
+        queue = []
+        # Initialize an empty set of queue
+        visited = set()
+        # Adding the 1st 
+        queue.append([self.vertices["1"]])
+        # While Queue is greater than zero
+        while len(queue) > 0:
+            # for each items in the the vertices that match with the key of queue[0]
+            for v in self.vertices[queue[0]]:
+                # if v not in queue and v not in visited
+                if v not in queue and v not in visited:
+                    # take a copy of queue[0]
+                    # append the child to the end of the copied queue[0] list
+                    # then append each to the end of queue.
+            visited.add(queue.pop(0))
+
+            """
+    def bf_traverse(self, start):
+        queue = [start]
+        visited = set()
+        while len(queue) > 0:
+            for v in self.vertices[queue[0]]:
+                if v not in queue and v not in visited:
+                    queue.append(v)
+            print(f'VISITED: {queue[0]}')
+            visited.add(queue.pop(0))
+            """
+
 g = Graph()
-g.df_traverse('1')
-print(g.df_traverse('1'))
+g.bf_traverse('1')
+print(g.bf_traverse('1'))
+
+
+
 
 """
 1  procedure DFS-iterative(G,v):
@@ -79,6 +130,7 @@ print(g.df_traverse('1'))
 """
 
 """
+Depth first traversal with stack
 Create an empty stack
 create an empty visited set
 add the starting vertex to the stack
