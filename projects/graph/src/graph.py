@@ -80,17 +80,15 @@ class Graph:
         return None
 
     # Part 4
-    def bf_search(self, starting, target):
+    def bf_search(self, start, target):
         # Initialize Queue
-        queue = []
+        queue = [start]
         # Initialize an empty set of queue
         visited = set()
-        # Adding the 1st 
-        queue.append([self.vertices["1"]])
         # While Queue is greater than zero
         while len(queue) > 0:
             # for each items in the the vertices that match with the key of queue[0]
-            for v in self.vertices[queue[0]]:
+            for v in self.vertices[queue[len(queue) - 1]]:
                 # if v not in queue and v not in visited
                 if v not in queue and v not in visited:
                     # take a copy of queue[0]
