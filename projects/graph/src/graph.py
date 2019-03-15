@@ -80,21 +80,38 @@ class Graph:
         return None
 
     # Part 4
-    # def bf_search(self, start, target):
-    #     # Initialize Queue
-    #     queue = [start]
-    #     # Initialize an empty set of queue
-    #     visited = set()
-    #     # While Queue is greater than zero
-    #     while len(queue) > 0:
-    #         # for each items in the the vertices that match with the key of queue[0]
-    #         for v in self.vertices[queue[len(queue) - 1]]:
-    #             # if v not in queue and v not in visited
-    #             if v not in queue and v not in visited:
-    #                 # take a copy of queue[0]
-    #                 # append the child to the end of the copied queue[0] list
-    #                 # then append each to the end of queue.
-    #         visited.add(queue.pop(0))
+    def bf_search(self, start, target):
+        # Initialize Queue
+        queue = [[start]]
+        
+        print(queue[len(queue) - 1][len(queue) - 1])
+        # Initialize an empty set of queue
+        visited = []
+        # While Queue is greater than zero
+        while len(queue) > 0:
+            # for each items in the the vertices that match with the key of queue[0]
+            for v in self.vertices[queue[0][len(queue[0]) - 1]]: #[queue[0][len(queue[0]) - 1]]
+                print("v:", v)
+                # print("self.vertices: ", self.vertices[queue[len(queue) - 1]])
+                if v not in queue and v not in visited:
+                    # take a copy of queue[0]
+                    copy = queue[0][:]
+                    print("copy: ", copy)
+                    copy.append(v)
+                    queue.append(copy)
+                    print("copy again: ", copy)
+                    print("queue after copy:", queue)
+                    # append the child to the end of the copied queue[0] list
+                    # then append each to the end of queue.
+            print(f'VISITED: {queue[0]}')
+            visited.append(queue[0][len(queue[0]) - 1])
+            if visited[len(visited) - 1] == target:
+                return queue[len(queue) - 1]
+            else:
+                queue.remove(queue[0])
+            print("Visit list: ", visited)
+            print("Queue List: ", queue)
+
 
     """
     def bf_traverse(self, start):
@@ -112,7 +129,9 @@ g = Graph()
 # g.bf_traverse('1')
 # print(g.bf_traverse('1'))
 
-print(g.dft_recursive('1', '15'))
+# print(g.dft_recursive('1', '15'))
+
+print(g.bf_search('1', '15'))
 
 
 
