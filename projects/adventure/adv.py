@@ -22,11 +22,103 @@ world.printRooms()
 
 
 # FILL THIS IN
-traversalPath = ['n', 's']
+traversalPath = []
+
+graph = {}
+
+inverse_directions = {'n': 's', 's': 'n', 'w': 'e', 'e': 'w'}
+
+# Assign the id of the room player is currently in
+current_room_id = player.currentRoom.id
+
+# Assign players exits to room_exits
+room_exits = player.currentRoom.getExits()
+
+# Map every exit key to '?' as value
+exits_dictionary = {}
+for exit in room_exits:
+    exits_dictionary[exit] = '?'
+
+# Adding in the current id as the key and assigning exits_dictionary as the value.
+graph[current_room_id] = exits_dictionary
+
+# Traversing through with DFT recursion
+# def dft_recursive(current_room, target_room, visited = set(), path = []):
+
+#     visited.add(current_room)
+#     print("Visited:", visited)
+#     path = path + [current_room]
+
+#     print("path:", path)
+
+#     if len(graph) == len(roomGraph):
+#         return path
+#     for neighbor in graph[current_room]:
+#         if neighbor not in visited:
+#             new_path = dft_recursive(neighbor, target_room, visited, path)
+#             if new_path:
+#                 return new_path
+#     return None
 
 
+# dft_recursive(current_room_id, '?')
 
+def maze_traversal(current_room, map = set(), path = []):
 
+    map.add(current_room)
+    print("Graph so far:", map)
+    path = path + [current_room]
+    previous_room_id = current_room
+
+    print(graph[current_room])
+
+    # Base case to stop the recursion
+    if len(path) == len(roomGraph):
+        return traversalPath.append(path)
+
+    #Check each value for '?' to proceed into next room
+    for next_room in graph[current_room]:
+        # if any directions has '?' then player.travel(next_room)
+        print("next room:", next_room)
+        if graph[current_room][next_room] == '?':
+            #Move player to direction_to_travel, which in this case is next_room
+            player.travel(next_room)
+
+            # Adding the direction to traversalPath to keep track
+            traversalPath.append(next_room)
+
+            # #Reassigned current_room_id to player.currentRoom.id
+            current_room_id = player.currentRoom.id
+
+            #Reassigned room_exits to be current room exits
+            room_exits = player.currentRoom.getExits()
+
+            #Remap exits_dictionary to show current room exits
+            exits_dictionary = {}
+            for exit in room_exits:
+                exits_dictionary[exit] = '?'
+
+            # Adding in the current room (room 1) as key and assign exits_dictionary as the value
+            graph[current_room_id] = exits_dictionary
+
+            # Assign inverse_direction to be the inverse of direction_to_travel, which will take 'n' for the key to get the value of 's' from inverse_directions
+            inverse_direction = inverse_directions[next_room]
+
+            # Assigning previous_room_id and the next_room inside of the dictionary to the new current_room_id 
+            graph[previous_room_id] [next_room] = current_room_id
+
+            # Assigning [current_room_id] with the inverse_direction to previous_room_id
+            graph[current_room_id] [inverse_direction] = previous_room_id
+
+            new_path = maze_traversal(current_room_id, map, path)
+            if new_path:
+                return new_path
+        else:
+            return map
+
+maze_traversal(current_room_id)
+
+# def dft_recursion()
 
 
 # TRAVERSAL TEST
@@ -55,3 +147,4 @@ else:
 #         player.travel(cmds[0], True)
 #     else:
 #         print("I did not understand that command.")
+

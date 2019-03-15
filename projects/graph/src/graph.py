@@ -68,35 +68,35 @@ class Graph:
 
         visited.add(current_vertex)
         path = path + [current_vertex]
-        path += [current_vertex]
+        # path += [current_vertex]
 
         if current_vertex == target_vertex:
             return path
         for neighbors in self.vertices[current_vertex]:
-            if neighbor not in visited:
-                new_path = dft_recursive(self, neighbor, target_vertex, visited, path)
+            if neighbors not in visited:
+                new_path = self.dft_recursive( neighbors, target_vertex, visited, path)
                 if new_path:
                     return new_path
         return None
 
     # Part 4
-    def bf_search(self, start, target):
-        # Initialize Queue
-        queue = [start]
-        # Initialize an empty set of queue
-        visited = set()
-        # While Queue is greater than zero
-        while len(queue) > 0:
-            # for each items in the the vertices that match with the key of queue[0]
-            for v in self.vertices[queue[len(queue) - 1]]:
-                # if v not in queue and v not in visited
-                if v not in queue and v not in visited:
-                    # take a copy of queue[0]
-                    # append the child to the end of the copied queue[0] list
-                    # then append each to the end of queue.
-            visited.add(queue.pop(0))
+    # def bf_search(self, start, target):
+    #     # Initialize Queue
+    #     queue = [start]
+    #     # Initialize an empty set of queue
+    #     visited = set()
+    #     # While Queue is greater than zero
+    #     while len(queue) > 0:
+    #         # for each items in the the vertices that match with the key of queue[0]
+    #         for v in self.vertices[queue[len(queue) - 1]]:
+    #             # if v not in queue and v not in visited
+    #             if v not in queue and v not in visited:
+    #                 # take a copy of queue[0]
+    #                 # append the child to the end of the copied queue[0] list
+    #                 # then append each to the end of queue.
+    #         visited.add(queue.pop(0))
 
-            """
+    """
     def bf_traverse(self, start):
         queue = [start]
         visited = set()
@@ -106,12 +106,13 @@ class Graph:
                     queue.append(v)
             print(f'VISITED: {queue[0]}')
             visited.add(queue.pop(0))
-            """
+    """
 
 g = Graph()
-g.bf_traverse('1')
-print(g.bf_traverse('1'))
+# g.bf_traverse('1')
+# print(g.bf_traverse('1'))
 
+print(g.dft_recursive('1', '15'))
 
 
 
