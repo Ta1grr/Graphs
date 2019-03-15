@@ -84,33 +84,33 @@ class Graph:
         # Initialize Queue
         queue = [[start]]
         
-        print(queue[len(queue) - 1][len(queue) - 1])
+        # print(queue[len(queue) - 1][len(queue) - 1])
         # Initialize an empty set of queue
         visited = []
         # While Queue is greater than zero
         while len(queue) > 0:
             # for each items in the the vertices that match with the key of queue[0]
             for v in self.vertices[queue[0][len(queue[0]) - 1]]: #[queue[0][len(queue[0]) - 1]]
-                print("v:", v)
+                # print("v:", v)
                 # print("self.vertices: ", self.vertices[queue[len(queue) - 1]])
                 if v not in queue and v not in visited:
                     # take a copy of queue[0]
                     copy = queue[0][:]
-                    print("copy: ", copy)
+                    # print("copy: ", copy)
                     copy.append(v)
                     queue.append(copy)
-                    print("copy again: ", copy)
-                    print("queue after copy:", queue)
+                    # print("copy again: ", copy)
+                    # print("queue after copy:", queue)
                     # append the child to the end of the copied queue[0] list
                     # then append each to the end of queue.
-            print(f'VISITED: {queue[0]}')
+            # print(f'VISITED: {queue[0]}')
             visited.append(queue[0][len(queue[0]) - 1])
             if visited[len(visited) - 1] == target:
-                return queue[len(queue) - 1]
+                return queue[0]
             else:
                 queue.remove(queue[0])
-            print("Visit list: ", visited)
-            print("Queue List: ", queue)
+            # print("Visit list: ", visited)
+            # print("Queue List: ", queue)
 
 
     """
