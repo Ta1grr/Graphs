@@ -158,3 +158,186 @@ while the stack is not empty:
         mark it as visited
         put all of its children on top of the stack
 """
+
+"""
+Simple graph implementation
+"""
+
+
+#<----------------- Completed after having going back to the sprint -------------->
+
+# class Graph:
+#     """Represent a graph as a dictionary of vertices mapping labels to edges."""
+#     def __init__(self):
+#         # self.vertices = { 
+#         #         0: {1, 2}, 
+#         #         1: {0, 3, 4}, 
+#         #         2: {0, 5, 6}, 
+#         #         3: {1, 7, 8}, 
+#         #         4: {1, 9, 10}, 
+#         #         5: {2, 11, 12}, 
+#         #         6: {2, 13, 14}, 
+#         #         7: {3}, 
+#         #         8:{3}, 
+#         #         9: {4}, 
+#         #         10: {4}, 
+#         #         11: {5}, 
+#         #         12: {5}, 
+#         #         13: {6}, 
+#         #         14: {6}  
+#         #         }
+#         # self.vertices = {
+#         #     1: {12, 19, 21, 7},
+#         #     12: {1, 19},
+#         #     19: {1, 12, 21},
+#         #     21: {7, 1, 19, 31, 14},
+#         #     7: {1, 21},
+#         #     14: {21},
+#         #     31: {21},
+#         #     67: set()
+#         # }
+#         self.vertices = {
+#                    0: [1, 2],
+#                    1: [0, 3, 4],
+#                    2: [0, 5, 6],
+#                    3: [1, 7, 8 ],
+#                    4: [1, 9, 10],
+#                    5: [2, 11, 12],
+#                    6: [2, 13, 14],
+#                    7: [3],
+#                    8:[3],
+#                    9: [4],
+#                    10: [4],
+#                    11: [5],
+#                    12: [5],
+#                    13: [6],
+#                    14: [6]
+#                    }
+#         # 1, 12, 19, 21, 7, 31, 14 // length = 7
+
+#     def add_vertex(self, room_id):
+#         if room_id in self.vertices:
+#             return "this already exist"
+#         self.vertices[room_id] = set()
+#     def add_edge(self, vertex_1, vertex_2):
+#         # set as the value of corresponding vertex
+#             # check to see if vertex exist
+#             if vertex_1 not in self.vertices or vertex_2 not in self.vertices:
+#                 return "One of the vertex does not exist"
+#             self.vertices[vertex_1].add(vertex_2)
+#             self.vertices[vertex_2].add(vertex_1)
+
+#     # Part 2: Implment Breadth-First Traversal
+#     def bf_t(self, start):
+#         queue = [start]
+#         visited = []
+
+#         while len(queue) > 0:
+#             # print(" -- LOOP --")
+#             current_node = queue.pop(0)
+#             if current_node not in visited:
+#                 # print("Current Node:", current_node)
+#                 # print("Visited before adding:", visited)
+#                 visited.append(current_node)
+#                 # print("Visited after adding:", visited)
+#                 for vertex in self.vertices[current_node]:
+#                     # print("Queue before adding vertex:", queue)
+#                     queue.append(vertex)
+#                     # print("Queue after adding vertex:", queue)
+#         return visited
+
+#     # Part 3: Implement Depth-First Traversal with a Stack
+#     def df_t(self, start):
+#         #Initiate a stack to keep track of first in last out
+#         stack = [start]
+#         visited = []
+#         # While the stack is greater than 0, append the start,
+#         # then append the children afterwards.
+#         while len(stack) > 0:
+#             # Remove the last item and use that as the basis
+#             current_node = stack.pop(0)
+#             # If the current_node (start) is not in visited
+#             if current_node not in visited:
+#                 # add the current node into visited
+#                 visited.append(current_node)
+#                 # and for each children of current node, add them to
+#                 # stack
+#                 for child_vertex in self.vertices[current_node]:
+#                     stack.insert(0, child_vertex)
+#         return visited
+                        
+#     # Part 3.5 Implement Depth-First Traversal using Recursion
+#     def df_r(self, current_vertex, discovered = []):
+#         # Discovered keep track of vertices as it recursively call itself.
+#         discovered += [current_vertex]
+#         # Check to see if the "child_vertex" or neighbor vertices of the current_vertex is in discovered.
+#         for child_vertex in self.vertices[current_vertex]:
+#             # if a child_vertex is not in discovered, then reassign discovered with the function passing the
+#             # child vertex as the current_vertex and passing discovered as parameters
+#             if child_vertex not in discovered:
+#                 discovered = self.df_r(child_vertex, discovered)
+#         # The recursion will keep calling itself until every node it comes across is in discovered.
+#         return discovered
+                
+#     # Part 4: Implement Breadth-First Search
+#     def bf_s(self, start, target):
+#         queue = [[start]]
+#         visited = []
+
+#         while len(queue) > 0:
+#             if queue[0][-1] == target:
+#                 return queue[0]
+
+#             if queue[0][-1] not in visited:
+#                 visited.append(queue[0][-1])
+#                 for vertex in self.vertices[queue[0][-1]]:
+#                     if vertex in visited:
+#                         continue
+#                     else:
+#                         c = queue[0][:]
+#                         c.append(vertex)
+#                         queue.append(c)
+#                 queue.pop(0)
+        
+
+#     # Part 5: Implement Depth-First Search
+#     def df_s(self, start, target):
+#         stack = [[start]]
+#         visited = []
+
+#         while len(stack) > 0:
+#             if stack[-1][-1] == target:
+#                 print(visited)
+#                 return stack[-1]
+#             if stack[0][-1] not in visited:
+#                 current = stack.pop()
+#                 for vertex in self.vertices[current[-1]]:
+#                     if vertex in visited:
+#                         continue
+#                     else:
+#                         c = current[:]
+#                         c.append(vertex)
+#                         stack.append(c)    
+#                 visited.append(current[-1])
+
+#                 # First in Last out
+
+# graph = Graph()  # Instantiate your graph
+# # graph.add_vertex('0')
+# # graph.add_vertex('1')
+# # graph.add_vertex('2')
+# # graph.add_vertex('3')
+# # graph.add_edge('0', '1')
+# # graph.add_edge('0', '3')
+# # graph.add_edge('0', '4')
+# # print("Vertices:",graph.vertices)
+
+# print("BFT:",graph.bf_t(0))
+
+# print("DFT:", graph.df_t(0))
+
+# print("BFS:", graph.bf_s(0, 10))
+
+# print("DFS:", graph.df_s(0, 13))
+
+# print("DFR:", graph.df_r(0))
