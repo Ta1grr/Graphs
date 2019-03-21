@@ -106,106 +106,40 @@ def maze_traversal(current_room, map = set()):
 
                 maze_traversal(current_room_id)
 
-
-        # else:
-        #     continue
     if graph[current_room][next_room] is not graph:
         print("graph[current_room][next_room]", graph[current_room][next_room])
         print("graph:", graph)
         return back_tracking(current_room)
 
-
-    # return back_tracking(current_room, '?', map, path)
-            # -- Alternative attempt 1 --
-            # for old_room in traversalPath[::-1]:
-            #     if graph[current_room] == old_room and graph[current_room][old_room] is not '?':
-            #         player.travel(inverse_directions[old_room])
-
-            #         traversalPath.append(graph[current_room][old_room])
-
-            #         current_room_id = player.currentRoom.id
-
-            #         room_exits = player.currentRoom.getExits
-
-            #         old_path = maze_traversal(current_room_id, map, path)
-            #         if old_path:
-            #             return old_path
-
-            # -- Alternative Attempt 2 --
-            # #Iterate through the exits
-            # for old_room in graph[current_room]: 
-            #     print("old_room: ", old_room)
-            #     print("graphing current/old room: ", graph[current_room][old_room])
-            #     if graph[current_room][old_room] is not '?':
-            #         print("False: ", graph[current_room][old_room])
-            #         #Move player to direction_to_travel, which in this case is next_room
-            #         player.travel()
-
-            #         # Adding the direction to traversalPath to keep track
-            #         traversalPath.append(graph[previous_room_id][old_room])
-
-            #         # #Reassigned current_room_id to player.currentRoom.id
-            #         current_room_id = player.currentRoom.id
-
-            #         #Reassigned room_exits to be current room exits
-            #         room_exits = player.currentRoom.getExits()
-
-                
-
-            #         old_path = maze_traversal(current_room_id, map, path)
-            #         if old_path:
-            #             return old_path
-
-
 def back_tracking(current_room_id):
-    # print(" -- BACK_TRACKING --")
     # Initialize Queue
     queue = [[current_room_id]]
 
-    # print("Queue: ", queue)
-
-    # print("Back_tracking Current Graph: ", graph)
-    
-    # print("?: ", queue[len(queue) - 1][len(queue) - 1])
     # Initialize an empty set of queue
     visited = []
     # While Queue is greater than zero
     while len(queue) > 0:
-        # print("-- WHILE LOOP --")
         # for each exits in current room
-        for exits in graph[queue[0][len(queue[0]) - 1]]:
-            # print("exits:", exits)
-            # print("self.vertices: ", graph[queue[len(queue) - 1]])
+        for exits in graph[queue[0][-1]]:
             # if it match to a question mark
-            if graph[queue[0][len(queue[0]) - 1]][exits] == '?':
+            if graph[queue[0][-1]][exits] == '?':
                 # loop through the first iteration of queue[0]
                 while len(queue[0]) > 1:
                     # checking here with the first index of queue[0] to be
                     # the current room and comparing it to the next iteration as the next room if the directional value match to the next room ID then append the key to pathTraversal until the list ends.
                     for _exits in graph[queue[0][0]]:
-                        # print("graph[queue[0][0]]", graph[queue[0][0]])
-                        # print("graph[queue[0][1]]", graph[queue[0][1]])
-                        # print("before if statement:", graph[queue[0][1]][inverse_direction])
-                        # print("before if statement:", graph[queue[0][0]][_exits])
                         if queue[0][1] == graph[queue[0][0]][_exits]:
                             player.travel(_exits)
-                            # print("Before traversalPath.append:", traversalPath)
                             traversalPath.append(_exits)
-                            # print("After traversalPath.append:", traversalPath)
                     queue[0].pop(0)
                 current_room_id = queue[0][0]
                 maze_traversal(current_room_id)
-            if graph[queue[0][len(queue[0]) - 1]][exits] not in queue and graph[queue[0][len(queue[0]) - 1]][exits] not in visited:
+            if graph[queue[0][-1]][exits] not in queue and graph[queue[0][-1]][exits] not in visited:
                 copy = queue[0][:]
-                # print("copy: ", copy)
-                copy.append(graph[queue[0][len(queue[0]) - 1]][exits])
+                copy.append(graph[queue[0][-1]][exits])
                 queue.append(copy)
-                # print("copy again: ", copy)
-                # print("queue after copy:", queue)
-        visited.append(queue[0][len(queue[0]) - 1])
+        visited.append(queue[0][-1])
         queue.remove(queue[0])
-        # print("Visit list: ", visited)
-        # print("Queue List: ", queue)
 
             
         # for each exit in current room has no '?'
