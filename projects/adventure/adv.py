@@ -42,99 +42,13 @@ for exit in room_exits:
 # Adding in the current id as the key and assigning exits_dictionary as the value.
 graph[current_room_id] = exits_dictionary
 
-# while len(graph) is not len(roomGraph):
-#     print(" -- Loop --")
-#     print("Length of graph:", len(graph))
-#     print("What's currently in graph:", graph)
-#     # DFS
-#     for next_room in graph[current_room_id]:
-#         # if any directions has '?' then player.travel(next_room)
-#         # print("next room:", next_room)
-#         if graph[current_room_id][next_room] == '?':
-
-#             previous_room_id = current_room_id
-#             print("True:", graph[current_room_id][next_room])
-#             #Move player to direction_to_travel, which in this case is next_room
-#             player.travel(next_room)
-#             print("Direction player traveled:", player.travel(next_room))
-#             # Adding the direction to traversalPath to keep track
-#             traversalPath.append(next_room)
-
-#             # #Reassigned current_room_id to player.currentRoom.id
-#             current_room_id = player.currentRoom.id
-
-#             #Reassigned room_exits to be current room exits
-#             room_exits = player.currentRoom.getExits()
-
-#             #Remap exits_dictionary to show current room exits
-#             # if graph[0]  graph.values():
-#             exits_dictionary = {}
-#             for exit in room_exits:
-#                 exits_dictionary[exit] = '?'
-
-#             # Adding in the current room (room 1) as key and assign exits_dictionary as the value
-#             graph[current_room_id] = exits_dictionary
-
-#             # Assign inverse_direction to be the inverse of direction_to_travel, which will take 'n' for the key to get the value of 's' from inverse_directions
-#             inverse_direction = inverse_directions[next_room]
-
-#             # Assigning previous_room_id and the next_room inside of the dictionary to the new current_room_id
-#             graph[previous_room_id] [next_room] = current_room_id
-
-#             # Assigning [current_room_id] with the inverse_direction to previous_room_id
-#             graph[current_room_id] [inverse_direction] = previous_room_id
-
-
-    #BFS
-    # queue = [[current_room_id]]
-
-    # print("Queue: ", queue)
-
-    # print("Back_tracking Current Graph: ", graph)
-    
-    # print("?: ", queue[len(queue) - 1][len(queue) - 1])
-    # # Initialize an empty set of queue
-    # visited = []
-    # # While Queue is greater than zero
-    # while len(queue) > 0:
-    #     print("-- WHILE LOOP --")
-    #     # for each exits in current room
-    #     for exits in graph[queue[0][len(queue[0]) - 1]]:
-    #         print("exits:", exits)
-    #         # print("self.vertices: ", graph[queue[len(queue) - 1]])
-    #         # if it match to a question mark
-    #         if graph[queue[0][len(queue[0]) - 1]][exits] == '?':
-    #             # loop through the first iteration of queue[0]
-    #             while len(queue[0]) > 1:
-    #                 # checking here with the first index of queue[0] to be
-    #                 # the current room and comparing it to the next iteration as the next room if the directional value match to the next room ID then append the key to pathTraversal until the list ends.
-    #                 for _exits in graph[queue[0][0]]:
-    #                     if graph[queue[0][1]] == graph[queue[0][0]][_exits]:
-    #                         traversalPath.append(_exits)
-    #                 queue[0].pop(0)
-    #             current_room_id = queue[0][0]
-    #         if graph[queue[0][len(queue[0]) - 1]][exits] not in queue and graph[queue[0][len(queue[0]) - 1]][exits] not in visited:
-    #             copy = queue[0][:]
-    #             print("copy: ", copy)
-    #             copy.append(graph[queue[0][len(queue[0]) - 1]][exits])
-    #             queue.append(copy)
-    #             print("copy again: ", copy)
-    #             print("queue after copy:", queue)
-    #     visited.append(queue[0][len(queue[0]) - 1])
-    #     queue.remove(queue[0])
-    #     print("Visit list: ", visited)
-    #     print("Queue List: ", queue)
-
-def maze_traversal(current_room, map = set(), path = []):
+def maze_traversal(current_room, map = set()):
     print(" -- MAZE_TRAVERSAL --")
     print("Graph before: ", map)
     print("Current room before: ", current_room)
     map.add(current_room)
     print("Graph so far:", map)
-    path = path + [current_room]
     previous_room_id = current_room
-
-    print("path: ", path)
 
     print(graph[current_room])
 
@@ -143,11 +57,11 @@ def maze_traversal(current_room, map = set(), path = []):
     # Base case to stop the recursion
     if len(map) == len(roomGraph):
         return traversalPath
-
+        
     #Check each value for '?' to proceed into next room
     for next_room in graph[current_room]:
         # if any directions has '?' then player.travel(next_room)
-        # print("next room:", next_room)
+        print("next room:", next_room)
         if graph[current_room][next_room] == '?':
             print("True: ", graph[current_room][next_room])
             #Move player to direction_to_travel, which in this case is next_room
@@ -163,30 +77,43 @@ def maze_traversal(current_room, map = set(), path = []):
             room_exits = player.currentRoom.getExits()
 
             #Remap exits_dictionary to show current room exits
-            exits_dictionary = {}
-            for exit in room_exits:
-                exits_dictionary[exit] = '?'
+            if current_room_id not in map:
+                exits_dictionary = {}
+                for exit in room_exits:
+                    exits_dictionary[exit] = '?'
+                # Adding in the current room (room 1) as key and assign exits_dictionary as the value
+                graph[current_room_id] = exits_dictionary
 
-            # Adding in the current room (room 1) as key and assign exits_dictionary as the value
-            graph[current_room_id] = exits_dictionary
+                # Assign inverse_direction to be the inverse of direction_to_travel, which will take 'n' for the key to get the value of 's' from inverse_directions
+                inverse_direction = inverse_directions[next_room]
 
-            # Assign inverse_direction to be the inverse of direction_to_travel, which will take 'n' for the key to get the value of 's' from inverse_directions
-            inverse_direction = inverse_directions[next_room]
+                # Assigning previous_room_id and the next_room inside of the dictionary to the new current_room_id
+                graph[previous_room_id] [next_room] = current_room_id
 
-            # Assigning previous_room_id and the next_room inside of the dictionary to the new current_room_id
-            graph[previous_room_id] [next_room] = current_room_id
+                # Assigning [current_room_id] with the inverse_direction to previous_room_id
+                graph[current_room_id] [inverse_direction] = previous_room_id
 
-            # Assigning [current_room_id] with the inverse_direction to previous_room_id
-            graph[current_room_id] [inverse_direction] = previous_room_id
+                maze_traversal(current_room_id)                   
+            else:
+                # Assign inverse_direction to be the inverse of direction_to_travel, which will take 'n' for the key to get the value of 's' from inverse_directions
+                inverse_direction = inverse_directions[next_room]
 
-            new_path = maze_traversal(current_room_id)
-            # print("new path:", new_path)
-            if new_path:
-                return new_path
-        else:
-            continue
+                # Assigning previous_room_id and the next_room inside of the dictionary to the new current_room_id
+                graph[previous_room_id] [next_room] = current_room_id
+
+                # Assigning [current_room_id] with the inverse_direction to previous_room_id
+                graph[current_room_id] [inverse_direction] = previous_room_id
+
+                maze_traversal(current_room_id)
+
+
+        # else:
+        #     continue
     if graph[current_room][next_room] is not graph:
+        print("graph[current_room][next_room]", graph[current_room][next_room])
+        print("graph:", graph)
         return back_tracking(current_room)
+
 
     # return back_tracking(current_room, '?', map, path)
             # -- Alternative attempt 1 --
@@ -231,23 +158,23 @@ def maze_traversal(current_room, map = set(), path = []):
 
 
 def back_tracking(current_room_id):
-    print(" -- BACK_TRACKING --")
+    # print(" -- BACK_TRACKING --")
     # Initialize Queue
     queue = [[current_room_id]]
 
-    print("Queue: ", queue)
+    # print("Queue: ", queue)
 
-    print("Back_tracking Current Graph: ", graph)
+    # print("Back_tracking Current Graph: ", graph)
     
-    print("?: ", queue[len(queue) - 1][len(queue) - 1])
+    # print("?: ", queue[len(queue) - 1][len(queue) - 1])
     # Initialize an empty set of queue
     visited = []
     # While Queue is greater than zero
     while len(queue) > 0:
-        print("-- WHILE LOOP --")
+        # print("-- WHILE LOOP --")
         # for each exits in current room
         for exits in graph[queue[0][len(queue[0]) - 1]]:
-            print("exits:", exits)
+            # print("exits:", exits)
             # print("self.vertices: ", graph[queue[len(queue) - 1]])
             # if it match to a question mark
             if graph[queue[0][len(queue[0]) - 1]][exits] == '?':
@@ -256,64 +183,31 @@ def back_tracking(current_room_id):
                     # checking here with the first index of queue[0] to be
                     # the current room and comparing it to the next iteration as the next room if the directional value match to the next room ID then append the key to pathTraversal until the list ends.
                     for _exits in graph[queue[0][0]]:
-                        print("graph[queue[0][0]]", graph[queue[0][0]])
-                        print("graph[queue[0][1]]", graph[queue[0][1]])
-                        inverse_direction = inverse_directions[_exits]
-                        print("before if statement:", graph[queue[0][1]][inverse_direction])
-                        print("before if statement:", graph[queue[0][0]][_exits])
+                        # print("graph[queue[0][0]]", graph[queue[0][0]])
+                        # print("graph[queue[0][1]]", graph[queue[0][1]])
+                        # print("before if statement:", graph[queue[0][1]][inverse_direction])
+                        # print("before if statement:", graph[queue[0][0]][_exits])
                         if queue[0][1] == graph[queue[0][0]][_exits]:
                             player.travel(_exits)
-                            print("Before traversalPath.append:", traversalPath)
+                            # print("Before traversalPath.append:", traversalPath)
                             traversalPath.append(_exits)
-                            print("After traversalPath.append:", traversalPath)
+                            # print("After traversalPath.append:", traversalPath)
                     queue[0].pop(0)
-                    # if graph[current_room] == graph[traverse]:
-                    #     current_room_id = queue[0][traverse + 1]
-                    #if traverse equal to graph[current_room]
-                    # for exit in graph[queue[0][traverse]]:
-                    #     if graph[traverse][exit] == queue[0][traverse]:
-                    # print("graph[current_room][traverse]: ", graph[current_room][traverse])
-                    # print("queue[0] traverse: ", queue[0][traverse])
-                    # traversalPath.append(graph[traverse])
                 current_room_id = queue[0][0]
                 maze_traversal(current_room_id)
             if graph[queue[0][len(queue[0]) - 1]][exits] not in queue and graph[queue[0][len(queue[0]) - 1]][exits] not in visited:
                 copy = queue[0][:]
-                print("copy: ", copy)
+                # print("copy: ", copy)
                 copy.append(graph[queue[0][len(queue[0]) - 1]][exits])
                 queue.append(copy)
-                print("copy again: ", copy)
-                print("queue after copy:", queue)
+                # print("copy again: ", copy)
+                # print("queue after copy:", queue)
         visited.append(queue[0][len(queue[0]) - 1])
         queue.remove(queue[0])
-        print("Visit list: ", visited)
-        print("Queue List: ", queue)
+        # print("Visit list: ", visited)
+        # print("Queue List: ", queue)
 
-# -- back up --
-# def back_tracking(current_room, unexplored_room, map = set()):
-#      # Initialize Queue
-#     queue = [graph[current_room]]
-
-#     print("Queue: ", queue)
-
-#     print("Back_tracking Current Graph: ", graph)
-    
-#     # print(queue[len(queue) - 1][len(queue) - 1])
-#     # Initialize an empty set of queue
-#     visited = []
-#     # While Queue is greater than zero
-#     while len(queue) > 0:
-#         # for each exits in current room
-#         for rooms in graph[rooms]:
-#             # if the exits
-#             if graph[current_room][exits] == unexplored_room:
-#                 break 
-#                 maze_traversal(current_room, map, path)
-#             if graph[current_room][exits] is not visited:
-                
-
-
-
+            
         # for each exit in current room has no '?'
             # if the exits not in queue and not in visited
                 # then take a copy of queue[0]
